@@ -1,7 +1,8 @@
 import pyCiscoSpark
-import idstring
+import sys
 
-accesstoken="Bearer "+idstring.idstring
+accesstoken="Bearer "+str(sys.argv[1])
+print accesstoken
 
 resp = pyCiscoSpark.get_persondetails(accesstoken,"me")
 if resp.status_code != 201:
