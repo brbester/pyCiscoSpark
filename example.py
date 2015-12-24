@@ -2,7 +2,7 @@ import pyCiscoSpark
 import sys
 
 accesstoken="Bearer "+str(sys.argv[1])
-roomname="PSNF-Synovus"
+roomname="Test3 Room"
 
 
 print accesstoken
