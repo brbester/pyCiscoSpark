@@ -3,7 +3,7 @@ import json
 
 #Helpers
 def _url(path):
-    resp = 'https://api.ciscospark.com/v1' + path
+    return 'https://api.ciscospark.com/v1' + path
     
 
 #GET Requests
@@ -21,7 +21,7 @@ def get_people(at,email="",displayname="",max=10):
 def get_persondetails(at,personId):
     headers = {'Authorization':at}
     resp = requests.get(_url('/people/{:s}/'.format(personId)),headers=headers)
-    return = json.loads(resp.text)
+    return json.loads(resp.text)
 
 def get_me(at):
     headers = {'Authorization':at}

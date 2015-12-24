@@ -7,6 +7,9 @@ http://docs.python-requests.org/en/latest/user/install/
 
 at = personal Access Token (see https://developer.ciscospark.com/getting-started.html)
 
+Follows: https://developer.ciscospark.com/quick-reference.html
+
+
 Basically call the functions below and get a Python dictionary of the JSON back. You can then print the raw dictionary and choose the specific return fields you want to parse.
 
 This is an example of getting a Display Name from the Spark API from the personID:
