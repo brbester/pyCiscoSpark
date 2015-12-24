@@ -3,22 +3,14 @@ import sys
 import json
 
 accesstoken="Bearer "+str(sys.argv[1])
-print accesstoken
 
 email="brbester@cisco.com"
 
-resp = pyCiscoSpark.get_people(accesstoken,email)
-if resp.status_code != 200:
-    print (format(resp.status_code))
-print(resp.text)
-
-resp_dict=json.loads(resp.text)
+resp_dict = pyCiscoSpark.get_people(accesstoken,email)
 
 personid = resp_dict['items'][0]['id']
+print personid
 
-resp2=pyCiscoSpark.get_persondetails(accesstoken,personid)
-
-resp_dict2 = json.loads(resp2.text)
-
-print resp_dict2
+resp_dict2=pyCiscoSpark.get_persondetails(accesstoken,personid)
+print resp_dict2['displayName']
 
