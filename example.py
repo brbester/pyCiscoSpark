@@ -2,20 +2,27 @@ import pyCiscoSpark
 import sys
 
 accesstoken="Bearer "+str(sys.argv[1])
+roomname="PSNF-Synovus"
+
+
 print accesstoken
 
-resp = pyCiscoSpark.get_persondetails(accesstoken,"me")
-if resp.status_code != 200:
-    print (format(resp.status_code))
-print(resp.text)
+name = pyCiscoSpark.get_persondetails(accesstoken,"me")['displayName']
 
-resp = pyCiscoSpark.get_rooms(accesstoken)
-if resp.status_code != 200:
-    print (format(resp.status_code))
-print(resp.text)
+room_dict = pyCiscoSpark.get_rooms(accesstoken)
 
+print "Rooms to Which "+name+" is a member:"
+print "----------------------------------------------------"
 
-resp = pyCiscoSpark.get_messages(accesstoken,"Y2lzY29zcGFyazovL3VzL1JPT00vYWIwNDJmYTAtNzI5NS0xMWU1LWJkYzAtNWJhNzIyZGZhNDZh")
-if resp.status_code != 200:
-    print (format(resp.status_code))
-print(resp.text)
+for room in room_dict['items']:
+    print room['title']
+    if (room['title']==roomname):roomid = room['id']
+print ""
+
+mess_dict = pyCiscoSpark.get_messages(accesstoken,roomid)
+
+print "Latest messages in "+roomname
+print "----------------------------------------------------"
+for room in mess_dict['items']:
+    print room['text']
+   

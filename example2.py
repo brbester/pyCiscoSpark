@@ -14,12 +14,11 @@ accesstoken="Bearer "+str(sys.argv[1])
 
 rooms_dict=pyCiscoSpark.get_rooms(accesstoken)
 
-roomid = search (rooms_dict, "pyCiscoSpark TestRoom1")
+roomid = search (rooms_dict, "Test3 Room")
 
 print roomid
 
-
-resp_dict = pyCiscoSpark.post_message(accesstoken,roomid,"python test message1")
+resp_dict = pyCiscoSpark.post_message(accesstoken,roomid,"A different test message")
 
 print resp_dict
 
