@@ -7,7 +7,7 @@ http://docs.python-requests.org/en/latest/user/install/
 
 at = personal Access Token (see https://developer.ciscospark.com/getting-started.html)
 
-Follows: https://developer.ciscospark.com/quick-reference.html
+
 
 
 Basically call the functions below and get a Python dictionary of the JSON back. You can then print the raw dictionary and choose the specific return fields you want to parse.
@@ -15,9 +15,11 @@ Basically call the functions below and get a Python dictionary of the JSON back.
 This is an example of getting a Display Name from the Spark API from the personID:
 
 `resp_dict2=pyCiscoSpark.get_persondetails(accesstoken,personid)`
+
 `print resp_dict2['displayName']`
 
 
+## Follows: https://developer.ciscospark.com/quick-reference.html
 ### get_people(at,email,displayName,max):
 List People in your Organization - max default is 10
 you need to enter an email or displayName or Spark will send an error
@@ -29,10 +31,13 @@ Get Person Details
 Get your Details
 
 ### get_rooms(at):
+Get a list of rooms in which you are a member
 
 ### get_room(at,roomId):
+get room details
 
 ### get_memberships(at):
+
 
 ### get_membership(at,membershipId):
 
@@ -63,7 +68,6 @@ Get your Details
 ### del_membership(at,membershipId):
 
 ### del_message(at,messageId):
-
 
 ### del_webhook(at,webhookId):
 
