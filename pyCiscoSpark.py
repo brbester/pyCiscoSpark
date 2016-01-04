@@ -71,9 +71,9 @@ def get_webhook(at,webhookId):
 
 #POST Requests
 def post_createroom(at,title):
-    headers = {'Authorization':at, "content-type":"application/json"}
+    headers = {'Authorization':at, "content-type":"application/x-www-form-urlencoded"}
     payload = {"title":title}
-    resp = requests.post(url=_url('/rooms'),json=payload, headers=headers)
+    resp = requests.post(url=_url('/rooms'),params=payload, headers=headers)
     return json.loads(resp.text)
 
 def post_message(at,roomId,text):
@@ -83,15 +83,15 @@ def post_message(at,roomId,text):
     return json.loads(resp.text)
 
 def post_membership(at,roomId,personEmail,isModerator=True):
-    headers = {'Authorization':at, "content-type":"application/json"}
+    headers = {'Authorization':at, "content-type":"application/x-www-form-urlencoded"}
     payload = {'roomId':roomId, "personEmail":personEmail, "isModerator":isModerator}
-    resp = requests.post(url=_url('/memberships'),json=payload, headers=headers)
+    resp = requests.post(url=_url('/memberships'),params=payload, headers=headers)
     return json.loads(resp.text)
 
 def post_webhook(at,name,targetUrl,resource,event,filter):
-    headers = {'Authorization':at, "content-type":"application/json"}
+    headers = {'Authorization':at, "content-type":"application/x-www-form-urlencoded"}
     payload = {'name':name, "targetUrl":targetUrl, "resource":resource, "event":event, "filter":filter}
-    resp = requests.post(url=_url('/webhooks'),json=payload, headers=headers)
+    resp = requests.post(url=_url('/webhooks'),params=payload, headers=headers)
     return json.loads(resp.text)
 
 #PUTS
