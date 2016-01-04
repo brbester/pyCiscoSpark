@@ -77,9 +77,9 @@ def post_createroom(at,title):
     return json.loads(resp.text)
 
 def post_message(at,roomId,text):
-    headers = {'Authorization':at, "content-type":"application/json"}
+    headers = {'Authorization':at, "content-type":"application/x-www-form-urlencoded"}
     payload = {'roomId':roomId, "text":text}
-    resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
+    resp = requests.post(url=_url('/messages'),params=payload, headers=headers)
     return json.loads(resp.text)
 
 def post_membership(at,roomId,personEmail,isModerator=True):
