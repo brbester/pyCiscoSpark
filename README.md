@@ -16,6 +16,24 @@ This is an example of getting a Display Name from the Spark API from the personI
 `print resp_dict2['displayName']`
 
 
+## Examples
+###example.py
+Python example to show room members and print the text messages in a specified room
+execute via "python example.py access_token_string"
+
+###example2.py
+Searches for a specified room and then posts a designated message
+
+###createwebhook.py
+creates webhook to watch for new messages in a room
+
+### ciscospark.php
+Sample PHP script to receive notifications from created webhook
+
+### sparkmess.py
+Sample python script to act on notifications by posting a message back to room in response (bot example)
+
+
 ## Follows: https://developer.ciscospark.com/quick-reference.html
 ### get_people(at,email,displayName,max):
 List People in your Organization - max default is 10
@@ -84,19 +102,3 @@ Delete a message
 ### del_webhook(at,webhookId):
 Delete a webhook
 
-## Examples
-###example.py
-Python example to show room members and print the text messages in a specified room
-execute via "python example.py access_token_string"
-
-###example2.py
-Searches for a specified room and then posts a designated message
-
-###createwebhook.py
-creates webhook to watch for new messages in a room
-
-### ciscospark.php
-Sample PHP script to receive notifications from created webhook
-
-### sparkmess.py
-Sample python script to act on notifications by posting a message back to room in response (bot example)
