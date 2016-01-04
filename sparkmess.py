@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import pyCiscoSpark
+import sys
 
 #storing the Authentication token in a file in the OS vs. leaving in script
 fat=open ("/usr/lib/cgi-bin/at.txt","r+")
@@ -38,7 +39,5 @@ f.write ("text:"+message)
 if ((message.find("robot", 0, 5))==-1): 
     resp_dict = pyCiscoSpark.post_message(accesstoken,roomid,newmessage)
     print resp_dict
-    f.write ("\n")
-    f.write (resp_dict)
-    f.write ("\n")
+
 f.close
