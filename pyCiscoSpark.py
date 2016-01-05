@@ -4,7 +4,13 @@ import json
 #Helpers
 def _url(path):
     return 'https://api.ciscospark.com/v1' + path
-    
+
+def findroomidbyname (at,roomname):
+    room_dict = pyCiscoSpark.get_rooms(at)    
+    for room in room_dict['items']:
+        print room['title']
+        if (room['title']==roomname):roomid = room['id']    
+    return roomid
 
 #GET Requests
 def get_people(at,email="",displayname="",max=10):
