@@ -13,7 +13,7 @@ def get_google(searchterm):
     return json.loads(resp.text)
 
 def get_googlepics(searchterm):
-    URL = 'https://www.googleapis.com/customsearch/v1?key=AIzaSyBlowr5J3SBAaCm6CZZywrf9thnAFW-0jM&cx=002683842610695450429:pjurqlgggde&q='+urllib.quote_plus(searchterm)+'&searchType=image&safe=high'
+    URL = 'https://www.googleapis.com/customsearch/v1?key=key&cx=cx&q='+urllib.quote_plus(searchterm)+'&searchType=image&safe=high'
     print "URL:"+URL+"\n"
     resp = requests.get(URL)
     return json.loads(resp.text)
