@@ -75,7 +75,10 @@ get webhook info
 Create a room with title
 
 ### post_message(at,roomId,text):
-Post a message to a room (text only right now)
+Post a message to a room (text only right now - see post_file)
+
+### post_file(at,roomId,url):
+Posts a file to a room
 
 ### post_membership(at,roomId,personEmail,isModerator=True):
 Add a person to a room
