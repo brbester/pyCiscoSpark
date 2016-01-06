@@ -12,6 +12,11 @@ def get_google(searchterm):
     resp = requests.get(URL)
     return json.loads(resp.text)
 
+def get_googlepics(searchterm):
+    URL = 'https://www.googleapis.com/customsearch/v1?key=AIzaSyBlowr5J3SBAaCm6CZZywrf9thnAFW-0jM&cx=002683842610695450429:pjurqlgggde&q='+urllib.quote_plus(searchterm)+'&searchType=image&safe=high'
+    print "URL:"+URL+"\n"
+    resp = requests.get(URL)
+    return json.loads(resp.text)
 
 #storing the Authentication token in a file in the OS vs. leaving in script
 fat=open ("/usr/lib/cgi-bin/at.txt","r+")
@@ -36,6 +41,7 @@ txt=pyCiscoSpark.get_message(accesstoken,msgid)
 print txt
 
 message=str(txt["text"])
+newmessage="robot response to "+message
 
 #grabbing roomId
 roomid=str(txt["roomId"])
@@ -45,9 +51,9 @@ print message
 print "\n\n"
 f.write ("text:"+message)
 
-#LOOP PREVENTION - watch for Google prefix and respond without Google as prefix
+#LOOP PREVENTION - this section won't execute if "robot" is at beginning of new posted message - if it isn't it will post a new message with "robot" as prefix
 if ((message.find("Google", 0, 6))==0):
-    searchterm = message.lstrip("Google ")
+    searchterm = message[7:]
     print searchterm
     resp_dict = get_google(searchterm)
     print resp_dict
@@ -62,5 +68,13 @@ if ((message.find("Google", 0, 6))==0):
     newmessage = newmessage.replace("</b>","")
     resp2_dict = pyCiscoSpark.post_message(accesstoken,roomid,newmessage)
     print resp2_dict
+
+if ((message.find("GPIC", 0, 4))==0):
+    searchterm = message[5:]
+    print searchterm
+    resp_dict = get_googlepics(searchterm)
+    print resp_dict
+    newimage = resp_dict["items"][0]["link"]
+    resp4_dict = pyCiscoSpark.post_file(accesstoken,roomid,newimage)
 
 f.close
