@@ -33,6 +33,8 @@ Sample PHP script to receive notifications from created webhook
 ### sparkmess.py
 Sample python script to act on notifications by posting a message back to room in response (bot example)
 
+### sparkgoogle.py
+Sample "bot" script. prefix a query or question with Google in a room and it responds with top 2 Google search results and links.  Requires ciscospark.php or similar to call it in response to created webhook.
 
 ## Follows: https://developer.ciscospark.com/quick-reference.html
 ### get_people(at,email,displayName,max):
