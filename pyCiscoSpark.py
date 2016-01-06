@@ -88,6 +88,12 @@ def post_message(at,roomId,text):
     resp = requests.post(url=_url('/messages'),params=payload, headers=headers)
     return json.loads(resp.text)
 
+def post_file(at,roomId,url):
+    headers = {'Authorization':at, "content-type":"application/x-www-form-urlencoded"}
+    payload = {'roomId':roomId, "file":url}
+    resp = requests.post(url=_url('/messages'),params=payload, headers=headers)
+    return json.loads(resp.text)
+
 def post_membership(at,roomId,personEmail,isModerator=True):
     headers = {'Authorization':at, "content-type":"application/x-www-form-urlencoded"}
     payload = {'roomId':roomId, "personEmail":personEmail, "isModerator":isModerator}
