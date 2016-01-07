@@ -44,132 +44,178 @@ def get_people(at,email='',displayname='',max=10):
         payload['displayName']=displayname
     print payload
     resp = requests.get(_url('/people'),params=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_persondetails(at,personId):
     headers = {'Authorization':at}
     resp = requests.get(_url('/people/{:s}/'.format(personId)),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_me(at):
     headers = {'Authorization':at}
     resp = requests.get(_url('/people/me'),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_rooms(at):
     headers = {'Authorization':at}
     resp = requests.get(_url('/rooms'),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_room(at,roomId):
     headers = {'Authorization':at}
     resp = requests.get(_url('/memberships'),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_memberships(at):
     headers = {'Authorization':at}
     resp = requests.get(_url('/memberships'),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_membership(at,membershipId):
     headers = {'Authorization':at}
     resp = requests.get(_url('/memberships/{:s}/'.format(membershipId)),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_messages(at,roomId):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId}
     resp = requests.get(_url('/messages'),params=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_message(at,messageId):
     headers = {'Authorization':at}
     resp = requests.get(_url('/messages/{:s}'.format(messageId)),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_webhooks(at):
     headers = {'Authorization':at}
     resp = requests.get(_url('/webhooks'),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def get_webhook(at,webhookId):
     headers = {'Authorization':at}
     resp = requests.get(_url('/webhooks/{:s}'.format(webhookId)),headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 #POST Requests
 def post_createroom(at,title):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'title':title}
     resp = requests.post(url=_url('/rooms'),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def post_message(at,roomId,text):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId, 'text':text}
     resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def post_file(at,roomId,url):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId, 'files':[url]}
     resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def post_membership(at,roomId,personEmail,isModerator=True):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId, 'personEmail':personEmail, 'isModerator':isModerator}
     resp = requests.post(url=_url('/memberships'),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def post_webhook(at,name,targetUrl,resource,event,filter):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'name':name, 'targetUrl':targetUrl, 'resource':resource, 'event':event, 'filter':filter}
     resp = requests.post(url=_url('/webhooks'),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 #PUTS
 def put_room(at,roomId,title='title'):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'title': title}
     resp = requests.put(url=_url('/rooms/{:s}'.format(roomId)),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def put_membership(at,membershipId,isModerator):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'isModerator':isModerator}
     resp = requests.put(url=_url('/memberships/{:s}'.format(membershipId)),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def put_webhook(at,webhookId,name,targetUrl):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'name':name, 'targetUrl':targetUrl}
     resp = requests.put(url=_url('/webhooks/{:s}'.format(webhookId)),json=payload, headers=headers)
-    return json.loads(resp.text)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 #DELETES
 
 def del_room(at,roomId):
     headers = {'Authorization':at, 'content-type':'application/json'}
     resp = requests.delete(url=_url('/rooms/{:s}'.format(roomId)), headers=headers)
-    return resp.status_code
+    dict = {}
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def del_membership(at,membershipId):
     headers = {'Authorization':at, 'content-type':'application/json'}
     resp = requests.delete(url=_url('/memberships/{:s}'.format(membershipId)), headers=headers)
-    return resp.status_code
+    dict = {}
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 
 def del_message(at,messageId):
     headers = {'Authorization':at, 'content-type':'application/json'}
     resp = requests.delete(url=_url('/messages/{:s}'.format(messageId)), headers=headers)
-    return resp.status_code
+    dict = {}
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 
 def del_webhook(at,webhookId):
     headers = {'Authorization':at, 'content-type':'application/json'}
     resp = requests.delete(url=_url('/webhooks/{:s}'.format(webhookId)), headers=headers)
-    return resp.status_code
+    dict = {}
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 
 
