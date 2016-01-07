@@ -130,7 +130,7 @@ def put_webhook(at,webhookId,name,targetUrl):
 def del_room(at,roomId):
     headers = {'Authorization':at, "content-type":"application/json"}
     resp = requests.delete(url=_url('/rooms/{:s}'.format(roomId)), headers=headers)
-    return r.status_code
+    return resp.status_code
 
 def del_membership(at,membershipId):
     headers = {'Authorization':at, "content-type":"application/json"}
