@@ -4,7 +4,7 @@ import sys
 
 #storing the Authentication token in a file in the OS vs. leaving in script
 fat=open ("/usr/lib/cgi-bin/at.txt","r+")
-accesstoken=fat.readline()
+accesstoken=fat.readline().rstrip()
 accesstoken="Bearer "+accesstoken
 fat.close
 
