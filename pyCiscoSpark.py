@@ -30,7 +30,7 @@ def _url(path):
 def findroomidbyname (at,roomname):
     room_dict = get_rooms(at)    
     for room in room_dict['items']:
-        print room['title']
+#        print (room['title'])
         if (room['title']==roomname):roomid = room['id']    
     return roomid
 
@@ -42,7 +42,7 @@ def get_people(at,email='',displayname='',max=10):
         payload['email']=email
     if (displayname != ''):
         payload['displayName']=displayname
-    print payload
+#    print (payload)
     resp = requests.get(_url('/people'),params=payload, headers=headers)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
