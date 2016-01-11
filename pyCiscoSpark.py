@@ -71,7 +71,8 @@ def get_rooms(at):
 
 def get_room(at,roomId):
     headers = {'Authorization':at}
-    resp = requests.get(_url('/memberships'),headers=headers)
+    payload = {'showSipAddress':'true'}
+    resp = requests.get(_url('/rooms/{:s}'.format(roomId)),params=payload,headers=headers)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict
@@ -85,7 +86,7 @@ def get_memberships(at):
 
 def get_membership(at,membershipId):
     headers = {'Authorization':at}
-    resp = requests.get(_url('/memberships/{:s}/'.format(membershipId)),headers=headers)
+    resp = requests.get(_url('/memberships/{:s}'.format(membershipId)),headers=headers)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict

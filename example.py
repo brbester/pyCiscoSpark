@@ -2,7 +2,7 @@ import pyCiscoSpark
 import sys
 
 accesstoken="Bearer "+str(sys.argv[1])
-roomname="Test3 Room"
+roomname="Google Bot Example"
 
 
 print accesstoken
@@ -24,5 +24,6 @@ mess_dict = pyCiscoSpark.get_messages(accesstoken,roomid)
 print "Latest messages in "+roomname
 print "----------------------------------------------------"
 for room in mess_dict['items']:
-    print room['text']
+    if 'text' in room:
+        print room['text']
    
