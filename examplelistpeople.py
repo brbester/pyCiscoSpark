@@ -9,8 +9,8 @@ email="brbester@cisco.com"
 resp_dict = pyCiscoSpark.get_people(accesstoken,email)
 
 personid = resp_dict['items'][0]['id']
-print personid
+print (personid)
 
 resp_dict2=pyCiscoSpark.get_persondetails(accesstoken,personid)
-print resp_dict2['displayName']
+print (resp_dict2['displayName'])
 

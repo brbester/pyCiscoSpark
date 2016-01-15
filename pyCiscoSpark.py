@@ -129,17 +129,27 @@ def post_createroom(at,title):
     dict['statuscode']=str(resp.status_code)
     return dict
 
-def post_message(at,roomId,text):
+def post_message(at,roomId,text,toPersonId='',toPersonEmail=''):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId, 'text':text}
+    if (toPersonId != ''):
+        payload['toPersonId']=toPersonId
+    if (toPersonEmail != ''):
+        payload['toPersonEmail']=toPersonEmail
     resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict
 
-def post_file(at,roomId,url):
+def post_file(at,roomId,url,text='',toPersonId='',toPersonEmail=''):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId, 'files':[url]}
+    if (text != ''):
+        payload['text']=text
+    if (toPersonId != ''):
+        payload['toPersonId']=toPersonId
+    if (toPersonEmail != ''):
+        payload['toPersonEmail']=toPersonEmail
     resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
