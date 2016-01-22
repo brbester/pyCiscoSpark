@@ -16,6 +16,7 @@ This is an example of getting a Display Name from the Spark API from the personI
 `print resp_dict2['displayName']`
 
 
+
 ## Examples
 ###example.py
 Python example to show room members and print the text messages in a specified room
