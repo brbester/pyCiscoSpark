@@ -154,6 +154,21 @@ def post_file(at,roomId,url,text='',toPersonId='',toPersonEmail=''):
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict
+    
+def post_localfile(at,roomId,filename,text='',toPersonId='',toPersonEmail=''):
+    headers = {'Authorization':at, 'content-type':'application/json'}
+    payload = {'roomId':roomId}
+    if (text != ''):
+        payload['text']=text
+    if (toPersonId != ''):
+        payload['toPersonId']=toPersonId
+    if (toPersonEmail != ''):
+        payload['toPersonEmail']=toPersonEmail
+    files = {'files': open(filename,'rb')
+    resp = requests.post(url=_url('/messages'),files=filenamefixed, data=payload)
+    dict = json.loads(resp.text)
+    dict['statuscode']=str(resp.status_code)
+    return dict
 
 def post_membership(at,roomId,personEmail,isModerator=True):
     headers = {'Authorization':at, 'content-type':'application/json'}
