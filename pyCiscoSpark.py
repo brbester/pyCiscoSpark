@@ -165,7 +165,7 @@ def post_localfile(at,roomId,filename,text='',toPersonId='',toPersonEmail=''):
     if (toPersonEmail != ''):
         payload['toPersonEmail']=toPersonEmail
     files = {'files': open(filename,'rb')}
-    resp = requests.post(url=_url('/messages'),files=filenamefixed, data=payload)
+    resp = requests.post(url=_url('/messages'),files=files, data=payload)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict
