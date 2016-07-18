@@ -159,7 +159,7 @@ def post_file(at,roomId,url,text='',toPersonId='',toPersonEmail=''):
     
 def post_localfile(at,roomId,filename,text='',toPersonId='',toPersonEmail=''):
     openfile=open(filename,'rb')
-    filename=ntpath.split(filename)
+    filename=ntpath.basename(filename)
     payload={'roomId':roomId, 'files':(filename,openfile,'image/jpg')}
     if (text != ''):
         payload['text']=text
