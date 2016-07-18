@@ -1,5 +1,7 @@
 import requests
 import json
+import ntpath
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 # COMMENTED SECTION BELOW FOR DEBUGGING
 
@@ -156,19 +158,24 @@ def post_file(at,roomId,url,text='',toPersonId='',toPersonEmail=''):
     return dict
     
 def post_localfile(at,roomId,filename,text='',toPersonId='',toPersonEmail=''):
-    headers = {'Authorization':at}
-    payload = {'roomId':roomId}
+    openfile=open(filename,'rb')
+    filename=ntpath.split(filename)
+    payload={'roomId':roomId, 'files':(filename,openfile,'image/jpg')}
     if (text != ''):
         payload['text']=text
     if (toPersonId != ''):
         payload['toPersonId']=toPersonId
     if (toPersonEmail != ''):
         payload['toPersonEmail']=toPersonEmail
-    files = {'files': open(filename,'rb')}
-    resp = requests.post(url=_url('/messages'),files=files, data=payload)
-#    dict['response']=(resp.text)
+    m = MultipartEncoder(
+        fields = payload
+        )
+    headers = {'Authorization':at, 'Content-Type': m.content_type}
+    resp = requests.request("POST",url=_url('/messages'), data=m, headers=headers)
+    dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict
+
 
 def post_membership(at,roomId,personEmail,isModerator=True):
     headers = {'Authorization':at, 'content-type':'application/json'}
