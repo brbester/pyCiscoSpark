@@ -156,7 +156,7 @@ def post_file(at,roomId,url,text='',toPersonId='',toPersonEmail=''):
     return dict
     
 def post_localfile(at,roomId,filename,text='',toPersonId='',toPersonEmail=''):
-    headers = {'Authorization':at, 'content-type':'application/json'}
+    headers = {'Authorization':at}
     payload = {'roomId':roomId}
     if (text != ''):
         payload['text']=text
