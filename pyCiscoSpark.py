@@ -25,231 +25,244 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 #requests_log.propagate = True
 
 
-#Helpers
+# Helpers
 def _url(path):
     return 'https://api.ciscospark.com/v1' + path
 
-def findroomidbyname (at,roomname):
+
+def findroomidbyname(at, roomname):
     room_dict = get_rooms(at)    
     for room in room_dict['items']:
-#        print (room['title'])
-        if (room['title']==roomname):roomid = room['id']    
-    return roomid
+        # print (room['title'])
+        if room['title'] == roomname:
+            return room['id']
+        else:
+            return
 
-#GET Requests
-def get_people(at,email='',displayname='',max=10):
-    headers = {'Authorization':at}
+
+# GET Requests
+def get_people(at, email='', displayname='', max=10):
+    headers = {'Authorization': at}
     payload = {'max':max}
-    if (email != ''):
-        payload['email']=email
-    if (displayname != ''):
-        payload['displayName']=displayname
-#    print (payload)
-    resp = requests.get(_url('/people'),params=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    if email != '':
+        payload['email'] = email
+    if displayname != '':
+        payload['displayName'] = displayname
+    # print (payload)
+    resp = requests.get(_url('/people'), params=payload, headers=headers)
+    people_dict = json.loads(resp.text)
+    people_dict['statuscode'] = str(resp.status_code)
+    return people_dict
 
-def get_persondetails(at,personId):
-    headers = {'Authorization':at}
-    resp = requests.get(_url('/people/{:s}/'.format(personId)),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+
+def get_persondetails(at, personId):
+    headers = {'Authorization': at}
+    resp = requests.get(_url('/people/{:s}/'.format(personId)), headers=headers)
+    person_detail_dict = json.loads(resp.text)
+    person_detail_dict['statuscode'] = str(resp.status_code)
+    return person_detail_dict
+
 
 def get_me(at):
     headers = {'Authorization':at}
-    resp = requests.get(_url('/people/me'),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    resp = requests.get(_url('/people/me'), headers=headers)
+    me_dict = json.loads(resp.text)
+    me_dict['statuscode'] = str(resp.status_code)
+    return me_dict
+
 
 def get_rooms(at):
-    headers = {'Authorization':at}
-    resp = requests.get(_url('/rooms'),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    headers = {'Authorization': at}
+    resp = requests.get(_url('/rooms'), headers=headers)
+    room_dict = json.loads(resp.text)
+    room_dict['statuscode'] = str(resp.status_code)
+    return room_dict
 
-def get_room(at,roomId):
-    headers = {'Authorization':at}
-    payload = {'showSipAddress':'true'}
-    resp = requests.get(_url('/rooms/{:s}'.format(roomId)),params=payload,headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+
+def get_room(at, roomId):
+    headers = {'Authorization': at}
+    payload = {'showSipAddress': 'true'}
+    resp = requests.get(_url('/rooms/{:s}'.format(roomId)), params=payload, headers=headers)
+    room_dict = json.loads(resp.text)
+    room_dict['statuscode'] = str(resp.status_code)
+    return room_dict
+
 
 def get_memberships(at):
-    headers = {'Authorization':at}
-    resp = requests.get(_url('/memberships'),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    headers = {'Authorization': at}
+    resp = requests.get(_url('/memberships'), headers=headers)
+    membership_dict = json.loads(resp.text)
+    membership_dict['statuscode'] = str(resp.status_code)
+    return membership_dict
 
-def get_membership(at,membershipId):
-    headers = {'Authorization':at}
-    resp = requests.get(_url('/memberships/{:s}'.format(membershipId)),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
 
-def get_messages(at,roomId):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'roomId':roomId}
-    resp = requests.get(_url('/messages'),params=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+def get_membership(at, membershipId):
+    headers = {'Authorization': at}
+    resp = requests.get(_url('/memberships/{:s}'.format(membershipId)), headers=headers)
+    membership_dict = json.loads(resp.text)
+    membership_dict['statuscode'] = str(resp.status_code)
+    return membership_dict
 
-def get_message(at,messageId):
+
+def get_messages(at, roomId):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'roomId': roomId}
+    resp = requests.get(_url('/messages'), params=payload, headers=headers)
+    messages_dict = json.loads(resp.text)
+    messages_dict['statuscode'] = str(resp.status_code)
+    return messages_dict
+
+
+def get_message(at, messageId):
     headers = {'Authorization':at}
-    resp = requests.get(_url('/messages/{:s}'.format(messageId)),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    resp = requests.get(_url('/messages/{:s}'.format(messageId)), headers=headers)
+    message_dict = json.loads(resp.text)
+    message_dict['statuscode'] = str(resp.status_code)
+    return message_dict
+
 
 def get_webhooks(at):
-    headers = {'Authorization':at}
-    resp = requests.get(_url('/webhooks'),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    headers = {'Authorization': at}
+    resp = requests.get(_url('/webhooks'), headers=headers)
+    webhook_dict = json.loads(resp.text)
+    webhook_dict['statuscode'] = str(resp.status_code)
+    return webhook_dict
 
-def get_webhook(at,webhookId):
+
+def get_webhook(at, webhookId):
     headers = {'Authorization':at}
-    resp = requests.get(_url('/webhooks/{:s}'.format(webhookId)),headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    resp = requests.get(_url('/webhooks/{:s}'.format(webhookId)), headers=headers)
+    webhook_dict = json.loads(resp.text)
+    webhook_dict['statuscode'] = str(resp.status_code)
+    return webhook_dict
+
 
 #POST Requests
-def post_createroom(at,title):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'title':title}
-    resp = requests.post(url=_url('/rooms'),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
-
-def post_message(at,roomId,text,toPersonId='',toPersonEmail=''):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'roomId':roomId, 'text':text}
-    if (toPersonId != ''):
-        payload['toPersonId']=toPersonId
-    if (toPersonEmail != ''):
-        payload['toPersonEmail']=toPersonEmail
-    resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
-
-def post_file(at,roomId,url,text='',toPersonId='',toPersonEmail=''):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'roomId':roomId, 'files':[url]}
-    if (text != ''):
-        payload['text']=text
-    if (toPersonId != ''):
-        payload['toPersonId']=toPersonId
-    if (toPersonEmail != ''):
-        payload['toPersonEmail']=toPersonEmail
-    resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
-    
-def post_localfile(at,roomId,filename,text='',toPersonId='',toPersonEmail=''):
-    openfile=open(filename,'rb')
-    filename=ntpath.basename(filename)
-    payload={'roomId':roomId, 'files':(filename,openfile,'image/jpg')}
-    if (text != ''):
-        payload['text']=text
-    if (toPersonId != ''):
-        payload['toPersonId']=toPersonId
-    if (toPersonEmail != ''):
-        payload['toPersonEmail']=toPersonEmail
-    m = MultipartEncoder(
-        fields = payload
-        )
-    headers = {'Authorization':at, 'Content-Type': m.content_type}
-    resp = requests.request("POST",url=_url('/messages'), data=m, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
-
-
-def post_membership(at,roomId,personEmail,isModerator=True):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'roomId':roomId, 'personEmail':personEmail, 'isModerator':isModerator}
-    resp = requests.post(url=_url('/memberships'),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
-
-def post_webhook(at,name,targetUrl,resource,event,filter):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'name':name, 'targetUrl':targetUrl, 'resource':resource, 'event':event, 'filter':filter}
-    resp = requests.post(url=_url('/webhooks'),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
-
-#PUTS
-def put_room(at,roomId,title='title'):
-    headers = {'Authorization':at, 'content-type':'application/json'}
+def post_createroom(at, title):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
     payload = {'title': title}
-    resp = requests.put(url=_url('/rooms/{:s}'.format(roomId)),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    resp = requests.post(url=_url('/rooms'), json=payload, headers=headers)
+    create_room_dict = json.loads(resp.text)
+    create_room_dict['statuscode'] = str(resp.status_code)
+    return create_room_dict
 
-def put_membership(at,membershipId,isModerator):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'isModerator':isModerator}
-    resp = requests.put(url=_url('/memberships/{:s}'.format(membershipId)),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
 
-def put_webhook(at,webhookId,name,targetUrl):
-    headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'name':name, 'targetUrl':targetUrl}
+def post_message(at, roomId, text, toPersonId='', toPersonEmail=''):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'roomId': roomId, 'text': text}
+    if toPersonId != '':
+        payload['toPersonId'] = toPersonId
+    if toPersonEmail != '':
+        payload['toPersonEmail'] = toPersonEmail
+    resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
+    message_dict = json.loads(resp.text)
+    message_dict['statuscode'] = str(resp.status_code)
+    return message_dict
+
+
+def post_file(at, roomId, url, text='', toPersonId='', toPersonEmail=''):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'roomId': roomId, 'files': [url]}
+    if text != '':
+        payload['text'] = text
+    if toPersonId != '':
+        payload['toPersonId']=toPersonId
+    if toPersonEmail != '':
+        payload['toPersonEmail'] = toPersonEmail
+    resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
+    file_dict = json.loads(resp.text)
+    file_dict['statuscode'] = str(resp.status_code)
+    return file_dict
+    
+
+def post_localfile(at, roomId, filename, text='', toPersonId='', toPersonEmail=''):
+    openfile = open(filename,'rb')
+    filename = ntpath.basename(filename)
+    payload = {'roomId': roomId, 'files': (filename, openfile, 'image/jpg')}
+    if text != '':
+        payload['text'] = text
+    if toPersonId != '':
+        payload['toPersonId'] = toPersonId
+    if toPersonEmail != '':
+        payload['toPersonEmail'] = toPersonEmail
+    m = MultipartEncoder(fields=payload)
+    headers = {'Authorization': at, 'Content-Type': m.content_type}
+    resp = requests.request("POST",url=_url('/messages'), data=m, headers=headers)
+    file_dict = json.loads(resp.text)
+    file_dict['statuscode'] = str(resp.status_code)
+    return file_dict
+
+
+def post_membership(at, roomId, personEmail,isModerator=True):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'roomId': roomId, 'personEmail': personEmail, 'isModerator': isModerator}
+    resp = requests.post(url=_url('/memberships'), json=payload, headers=headers)
+    membership_dict = json.loads(resp.text)
+    membership_dict['statuscode'] = str(resp.status_code)
+    return membership_dict
+
+
+def post_webhook(at, name, targetUrl, resource, event, filter):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'name': name, 'targetUrl': targetUrl, 'resource': resource, 'event': event, 'filter': filter}
+    resp = requests.post(url=_url('/webhooks'), json=payload, headers=headers)
+    webhook_dict = json.loads(resp.text)
+    webhook_dict['statuscode'] = str(resp.status_code)
+    return webhook_dict
+
+
+# PUTS
+def put_room(at, roomId, title='title'):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'title': title}
+    resp = requests.put(url=_url('/rooms/{:s}'.format(roomId)), json=payload, headers=headers)
+    room_dict = json.loads(resp.text)
+    room_dict['statuscode'] = str(resp.status_code)
+    return room_dict
+
+
+def put_membership(at, membershipId, isModerator):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'isModerator': isModerator}
+    resp = requests.put(url=_url('/memberships/{:s}'.format(membershipId)), json=payload, headers=headers)
+    membership_dict = json.loads(resp.text)
+    membership_dict['statuscode'] = str(resp.status_code)
+    return membership_dict
+
+
+def put_webhook(at, webhookId, name, targetUrl):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
+    payload = {'name': name, 'targetUrl': targetUrl}
     resp = requests.put(url=_url('/webhooks/{:s}'.format(webhookId)),json=payload, headers=headers)
-    dict = json.loads(resp.text)
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    webhook_dict = json.loads(resp.text)
+    webhook_dict['statuscode'] = str(resp.status_code)
+    return webhook_dict
+
 
 #DELETES
-
-def del_room(at,roomId):
-    headers = {'Authorization':at, 'content-type':'application/json'}
+def del_room(at, roomId):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/rooms/{:s}'.format(roomId)), headers=headers)
-    dict = {}
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    del_dict = {'statuscode': str(resp.status_code)}
+    return del_dict
 
-def del_membership(at,membershipId):
-    headers = {'Authorization':at, 'content-type':'application/json'}
+
+def del_membership(at, membershipId):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/memberships/{:s}'.format(membershipId)), headers=headers)
-    dict = {}
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    del_dict = {'statuscode': str(resp.status_code)}
+    return del_dict
 
 
-def del_message(at,messageId):
-    headers = {'Authorization':at, 'content-type':'application/json'}
+def del_message(at, messageId):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/messages/{:s}'.format(messageId)), headers=headers)
-    dict = {}
-    dict['statuscode']=str(resp.status_code)
-    return dict
+    del_dict = {'statuscode': str(resp.status_code)}
+    return del_dict
 
 
-def del_webhook(at,webhookId):
-    headers = {'Authorization':at, 'content-type':'application/json'}
+def del_webhook(at, webhookId):
+    headers = {'Authorization': at, 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/webhooks/{:s}'.format(webhookId)), headers=headers)
-    dict = {}
-    dict['statuscode']=str(resp.status_code)
-    return dict
-
-
-
-
+    del_dict = {'statuscode': str(resp.status_code)}
+    return del_dict
