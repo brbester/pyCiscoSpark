@@ -2,6 +2,7 @@ import requests
 import json
 import ntpath
 from requests_toolbelt.multipart.encoder import MultipartEncoder
+import re
 
 # COMMENTED SECTION BELOW FOR DEBUGGING
 
@@ -18,7 +19,7 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 #http_client.HTTPConnection.debuglevel = 1
 
 # You must initialize logging, otherwise you'll not see debug output.
-#logging.basicConfig() 
+#logging.basicConfig()
 #logging.getLogger().setLevel(logging.DEBUG)
 #requests_log = logging.getLogger('requests.packages.urllib3')
 #requests_log.setLevel(logging.DEBUG)
@@ -30,8 +31,16 @@ def _url(path):
     return 'https://api.ciscospark.com/v1' + path
 
 
+def _fix_at(at):
+    at_prefix = 'Bearer '
+    if not re.match(at_prefix, at):
+        return 'Bearer ' + at
+    else:
+        return at
+
+
 def findroomidbyname(at, roomname):
-    room_dict = get_rooms(at)    
+    room_dict = get_rooms(_fix_at(at))
     for room in room_dict['items']:
         # print (room['title'])
         if room['title'] == roomname:
@@ -39,10 +48,9 @@ def findroomidbyname(at, roomname):
         else:
             return
 
-
 # GET Requests
 def get_people(at, email='', displayname='', max=10):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     payload = {'max':max}
     if email != '':
         payload['email'] = email
@@ -56,7 +64,7 @@ def get_people(at, email='', displayname='', max=10):
 
 
 def get_persondetails(at, personId):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/people/{:s}/'.format(personId)), headers=headers)
     person_detail_dict = json.loads(resp.text)
     person_detail_dict['statuscode'] = str(resp.status_code)
@@ -64,15 +72,16 @@ def get_persondetails(at, personId):
 
 
 def get_me(at):
-    headers = {'Authorization':at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/people/me'), headers=headers)
+    print resp.text
     me_dict = json.loads(resp.text)
     me_dict['statuscode'] = str(resp.status_code)
     return me_dict
 
 
 def get_rooms(at):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/rooms'), headers=headers)
     room_dict = json.loads(resp.text)
     room_dict['statuscode'] = str(resp.status_code)
@@ -80,7 +89,7 @@ def get_rooms(at):
 
 
 def get_room(at, roomId):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     payload = {'showSipAddress': 'true'}
     resp = requests.get(_url('/rooms/{:s}'.format(roomId)), params=payload, headers=headers)
     room_dict = json.loads(resp.text)
@@ -89,7 +98,7 @@ def get_room(at, roomId):
 
 
 def get_memberships(at):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/memberships'), headers=headers)
     membership_dict = json.loads(resp.text)
     membership_dict['statuscode'] = str(resp.status_code)
@@ -97,7 +106,7 @@ def get_memberships(at):
 
 
 def get_membership(at, membershipId):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/memberships/{:s}'.format(membershipId)), headers=headers)
     membership_dict = json.loads(resp.text)
     membership_dict['statuscode'] = str(resp.status_code)
@@ -105,7 +114,7 @@ def get_membership(at, membershipId):
 
 
 def get_messages(at, roomId):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'roomId': roomId}
     resp = requests.get(_url('/messages'), params=payload, headers=headers)
     messages_dict = json.loads(resp.text)
@@ -114,7 +123,7 @@ def get_messages(at, roomId):
 
 
 def get_message(at, messageId):
-    headers = {'Authorization':at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/messages/{:s}'.format(messageId)), headers=headers)
     message_dict = json.loads(resp.text)
     message_dict['statuscode'] = str(resp.status_code)
@@ -122,7 +131,7 @@ def get_message(at, messageId):
 
 
 def get_webhooks(at):
-    headers = {'Authorization': at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/webhooks'), headers=headers)
     webhook_dict = json.loads(resp.text)
     webhook_dict['statuscode'] = str(resp.status_code)
@@ -130,7 +139,7 @@ def get_webhooks(at):
 
 
 def get_webhook(at, webhookId):
-    headers = {'Authorization':at}
+    headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/webhooks/{:s}'.format(webhookId)), headers=headers)
     webhook_dict = json.loads(resp.text)
     webhook_dict['statuscode'] = str(resp.status_code)
@@ -139,7 +148,7 @@ def get_webhook(at, webhookId):
 
 #POST Requests
 def post_createroom(at, title):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'title': title}
     resp = requests.post(url=_url('/rooms'), json=payload, headers=headers)
     create_room_dict = json.loads(resp.text)
@@ -148,7 +157,7 @@ def post_createroom(at, title):
 
 
 def post_message(at, roomId, text, toPersonId='', toPersonEmail=''):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'roomId': roomId, 'text': text}
     if toPersonId != '':
         payload['toPersonId'] = toPersonId
@@ -161,7 +170,7 @@ def post_message(at, roomId, text, toPersonId='', toPersonEmail=''):
 
 
 def post_file(at, roomId, url, text='', toPersonId='', toPersonEmail=''):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'roomId': roomId, 'files': [url]}
     if text != '':
         payload['text'] = text
