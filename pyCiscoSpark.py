@@ -52,10 +52,10 @@ def findroomidbyname(at, roomname):
 # GET Requests
 def get_people(at, email='', displayname='', max=10):
     headers = {'Authorization': _fix_at(at)}
-    payload = {'max':max}
-    if email != '':
+    payload = {'max': max}
+    if email:
         payload['email'] = email
-    if displayname != '':
+    if displayname:
         payload['displayName'] = displayname
     # print (payload)
     resp = requests.get(_url('/people'), params=payload, headers=headers)
@@ -147,7 +147,7 @@ def get_webhook(at, webhookId):
     return webhook_dict
 
 
-#POST Requests
+# POST Requests
 def post_createroom(at, title):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'title': title}
@@ -160,9 +160,9 @@ def post_createroom(at, title):
 def post_message(at, roomId, text, toPersonId='', toPersonEmail=''):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'roomId': roomId, 'text': text}
-    if toPersonId != '':
+    if toPersonId:
         payload['toPersonId'] = toPersonId
-    if toPersonEmail != '':
+    if toPersonEmail:
         payload['toPersonEmail'] = toPersonEmail
     resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
     message_dict = json.loads(resp.text)
@@ -173,11 +173,11 @@ def post_message(at, roomId, text, toPersonId='', toPersonEmail=''):
 def post_file(at, roomId, url, text='', toPersonId='', toPersonEmail=''):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'roomId': roomId, 'files': [url]}
-    if text != '':
+    if text:
         payload['text'] = text
-    if toPersonId != '':
+    if toPersonId:
         payload['toPersonId']=toPersonId
-    if toPersonEmail != '':
+    if toPersonEmail:
         payload['toPersonEmail'] = toPersonEmail
     resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
     file_dict = json.loads(resp.text)
@@ -186,14 +186,14 @@ def post_file(at, roomId, url, text='', toPersonId='', toPersonEmail=''):
     
 
 def post_localfile(at, roomId, filename, text='', toPersonId='', toPersonEmail=''):
-    openfile = open(filename,'rb')
+    openfile = open(filename, 'rb')
     filename = ntpath.basename(filename)
     payload = {'roomId': roomId, 'files': (filename, openfile, 'image/jpg')}
-    if text != '':
+    if text:
         payload['text'] = text
-    if toPersonId != '':
+    if toPersonId:
         payload['toPersonId'] = toPersonId
-    if toPersonEmail != '':
+    if toPersonEmail:
         payload['toPersonEmail'] = toPersonEmail
     m = MultipartEncoder(fields=payload)
     headers = {'Authorization': _fix_at(at), 'Content-Type': m.content_type}
@@ -249,7 +249,7 @@ def put_webhook(at, webhookId, name, targetUrl):
     return webhook_dict
 
 
-#DELETES
+# DELETES
 def del_room(at, roomId):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/rooms/{:s}'.format(roomId)), headers=headers)
