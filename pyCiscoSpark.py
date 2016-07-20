@@ -196,7 +196,7 @@ def post_localfile(at, roomId, filename, text='', toPersonId='', toPersonEmail='
     if toPersonEmail != '':
         payload['toPersonEmail'] = toPersonEmail
     m = MultipartEncoder(fields=payload)
-    headers = {'Authorization': at, 'Content-Type': m.content_type}
+    headers = {'Authorization': _fix_at(at), 'Content-Type': m.content_type}
     resp = requests.request("POST",url=_url('/messages'), data=m, headers=headers)
     file_dict = json.loads(resp.text)
     file_dict['statuscode'] = str(resp.status_code)
@@ -205,7 +205,7 @@ def post_localfile(at, roomId, filename, text='', toPersonId='', toPersonEmail='
 
 def post_membership(at, roomId, personEmail, isModerator=True):
     headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
-    payload = {'roomId': roomId, 'personEmail': personEmail, "personId": '', 'isModerator': isModerator}
+    payload = {'roomId': roomId, 'personEmail': personEmail, 'isModerator': isModerator}
     resp = requests.post(url=_url('/memberships'), json=payload, headers=headers)
     membership_dict = json.loads(resp.text)
     membership_dict['statuscode'] = str(resp.status_code)
@@ -213,7 +213,7 @@ def post_membership(at, roomId, personEmail, isModerator=True):
 
 
 def post_webhook(at, name, targetUrl, resource, event, filter):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'name': name, 'targetUrl': targetUrl, 'resource': resource, 'event': event, 'filter': filter}
     resp = requests.post(url=_url('/webhooks'), json=payload, headers=headers)
     webhook_dict = json.loads(resp.text)
@@ -223,7 +223,7 @@ def post_webhook(at, name, targetUrl, resource, event, filter):
 
 # PUTS
 def put_room(at, roomId, title='title'):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'title': title}
     resp = requests.put(url=_url('/rooms/{:s}'.format(roomId)), json=payload, headers=headers)
     room_dict = json.loads(resp.text)
@@ -232,7 +232,7 @@ def put_room(at, roomId, title='title'):
 
 
 def put_membership(at, membershipId, isModerator):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'isModerator': isModerator}
     resp = requests.put(url=_url('/memberships/{:s}'.format(membershipId)), json=payload, headers=headers)
     membership_dict = json.loads(resp.text)
@@ -241,7 +241,7 @@ def put_membership(at, membershipId, isModerator):
 
 
 def put_webhook(at, webhookId, name, targetUrl):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     payload = {'name': name, 'targetUrl': targetUrl}
     resp = requests.put(url=_url('/webhooks/{:s}'.format(webhookId)),json=payload, headers=headers)
     webhook_dict = json.loads(resp.text)
@@ -251,28 +251,28 @@ def put_webhook(at, webhookId, name, targetUrl):
 
 #DELETES
 def del_room(at, roomId):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/rooms/{:s}'.format(roomId)), headers=headers)
     del_dict = {'statuscode': str(resp.status_code)}
     return del_dict
 
 
 def del_membership(at, membershipId):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/memberships/{:s}'.format(membershipId)), headers=headers)
     del_dict = {'statuscode': str(resp.status_code)}
     return del_dict
 
 
 def del_message(at, messageId):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/messages/{:s}'.format(messageId)), headers=headers)
     del_dict = {'statuscode': str(resp.status_code)}
     return del_dict
 
 
 def del_webhook(at, webhookId):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
     resp = requests.delete(url=_url('/webhooks/{:s}'.format(webhookId)), headers=headers)
     del_dict = {'statuscode': str(resp.status_code)}
     return del_dict
