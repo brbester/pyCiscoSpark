@@ -48,6 +48,7 @@ def findroomidbyname(at, roomname):
         else:
             return
 
+
 # GET Requests
 def get_people(at, email='', displayname='', max=10):
     headers = {'Authorization': _fix_at(at)}
@@ -202,9 +203,9 @@ def post_localfile(at, roomId, filename, text='', toPersonId='', toPersonEmail='
     return file_dict
 
 
-def post_membership(at, roomId, personEmail,isModerator=True):
-    headers = {'Authorization': at, 'content-type': 'application/json'}
-    payload = {'roomId': roomId, 'personEmail': personEmail, 'isModerator': isModerator}
+def post_membership(at, roomId, personEmail, isModerator=True):
+    headers = {'Authorization': _fix_at(at), 'content-type': 'application/json'}
+    payload = {'roomId': roomId, 'personEmail': personEmail, "personId": '', 'isModerator': isModerator}
     resp = requests.post(url=_url('/memberships'), json=payload, headers=headers)
     membership_dict = json.loads(resp.text)
     membership_dict['statuscode'] = str(resp.status_code)
