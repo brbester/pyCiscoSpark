@@ -131,18 +131,19 @@ def post_createroom(at,title):
     dict['statuscode']=str(resp.status_code)
     return dict
 
-def post_message(at,roomId,text,toPersonId='',toPersonEmail='',markdown=''):
+def post_message(at,roomId,text=None,toPersonId=None,toPersonEmail=None,markdown=None):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId}
-    if (toPersonId != ''):
+    if (toPersonId is not None):
         payload['text']=text
-    if (toPersonId != ''):
+    if (toPersonId is not None):
         payload['toPersonId']=toPersonId
-    if (toPersonEmail != ''):
+    if (toPersonEmail is not None):
         payload['toPersonEmail']=toPersonEmail
-    if (toPersonEmail != ''):
+    if (markdown is not None):
         payload['markdown']=markdown
     resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
+    print payload
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
     return dict
