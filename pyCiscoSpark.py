@@ -131,13 +131,15 @@ def post_createroom(at,title):
     dict['statuscode']=str(resp.status_code)
     return dict
 
-def post_message(at,roomId,text,toPersonId='',toPersonEmail=''):
+def post_message(at,roomId,text,toPersonId='',toPersonEmail='',markdown=''):
     headers = {'Authorization':at, 'content-type':'application/json'}
     payload = {'roomId':roomId, 'text':text}
     if (toPersonId != ''):
         payload['toPersonId']=toPersonId
     if (toPersonEmail != ''):
         payload['toPersonEmail']=toPersonEmail
+    if (toPersonEmail != ''):
+        payload['markdown']=markdown
     resp = requests.post(url=_url('/messages'),json=payload, headers=headers)
     dict = json.loads(resp.text)
     dict['statuscode']=str(resp.status_code)
