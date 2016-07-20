@@ -133,7 +133,9 @@ def post_createroom(at,title):
 
 def post_message(at,roomId,text,toPersonId='',toPersonEmail='',markdown=''):
     headers = {'Authorization':at, 'content-type':'application/json'}
-    payload = {'roomId':roomId, 'text':text}
+    payload = {'roomId':roomId}
+    if (toPersonId != ''):
+        payload['text']=text
     if (toPersonId != ''):
         payload['toPersonId']=toPersonId
     if (toPersonEmail != ''):
