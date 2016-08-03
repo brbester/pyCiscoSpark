@@ -176,7 +176,7 @@ def post_file(at, roomId, url, text='', toPersonId='', toPersonEmail=''):
     if text:
         payload['text'] = text
     if toPersonId:
-        payload['toPersonId']=toPersonId
+        payload['toPersonId'] = toPersonId
     if toPersonEmail:
         payload['toPersonEmail'] = toPersonEmail
     resp = requests.post(url=_url('/messages'), json=payload, headers=headers)
