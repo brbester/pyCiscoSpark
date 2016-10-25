@@ -75,7 +75,7 @@ def get_persondetails(at, personId):
 def get_me(at):
     headers = {'Authorization': _fix_at(at)}
     resp = requests.get(_url('/people/me'), headers=headers)
-    print resp.text
+    # print (resp.text)
     me_dict = json.loads(resp.text)
     me_dict['statuscode'] = str(resp.status_code)
     return me_dict
