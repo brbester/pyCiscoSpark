@@ -7,7 +7,24 @@
 CAREFUL on LOOPING - make sure to only post responses to rooms in response to messages your script didn't post or you could create a loop condition and overrun your room!!!  In this example the loop prevention is in the python script, not here...
 */
 
-$json=json_decode(file_get_contents("php://input"),true);
+$webhooksecretorig = "blalaberfasel"; # set NULL to disable check
+
+$rawPost = NULL;
+if ($webhooksecretorig !== NULL) {
+	if (!isset($_SERVER['HTTP_X_SPARK_SIGNATURE'])) {
+		throw new \Exception("HTTP header 'X-Spark-Signature' is missing.");
+	} elseif (!extension_loaded('hash')) {
+		throw new \Exception("Missing 'hash' extension to check the secret code validity.");
+	}
+    $hash = $_SERVER['HTTP_X_SPARK_SIGNATURE'];
+	$rawPost = file_get_contents('php://input');
+	if ($hash !== hash_hmac("SHA1", $rawPost, $webhooksecretorig)) {
+		throw new \Exception('Hook secret does not match.');
+	}
+};
+
+
+$json=json_decode($rawPost,true);
 $txt = var_dump($json);
 
 echo $txt;
